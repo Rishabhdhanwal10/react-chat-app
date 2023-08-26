@@ -9,14 +9,21 @@ app.use(cors());
 
 const server = http.createServer(app);
 
+dotenv.config({ path: './config.env' });
+
 const PORT = process.env.PORT
 
 const io = new Server(server, {
   cors: {
-    // origin: "http://192.168.0.104:3000",
-    methods: ["GET", "POST"],
-  },
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type'],
+    // origin: 'http://localhost:3001'
+}
 });
+
+app.get('/', (req, res) => {
+  res.send('Hello');
+})
 
 io.on("connection", (socket) => {
   console.log(`User Connected: ${socket.id}`);
@@ -36,18 +43,11 @@ io.on("connection", (socket) => {
 });
 
 
-if(process.env.NODE_ENV === "production"){
-  app.use(express.static(path.join(__dirname, '/client/build')));
+app.use(express.static(path.join(__dirname, './client/build')));
 
-  app.get('*', (req, res) => {
-      res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
-  })
-}else{
-  app.get('/', (req, res) => {
-      res.send('Api Running');
-  })
-}
-
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, './client/build/index.html'));
+})
 
 server.listen(PORT, () => {
   console.log(`Server is Running on port number ${PORT}`);
