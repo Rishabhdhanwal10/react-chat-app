@@ -21,10 +21,6 @@ const io = new Server(server, {
 }
 });
 
-app.get('/', (req, res) => {
-  res.send("Hello");
-} )
-
 io.on("connection", (socket) => {
   console.log(`User Connected: ${socket.id}`);
 
@@ -48,8 +44,6 @@ app.use(express.static(path.join(__dirname, './client/build')));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, './client/build/index.html'));
 });
-
-app.listen(8000);
 
 server.listen(PORT, () => {
   console.log(`Server is Running on port number ${PORT}`);
