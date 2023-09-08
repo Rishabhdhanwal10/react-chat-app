@@ -3,8 +3,8 @@ import io from "socket.io-client";
 import { useState } from "react";
 import Chat from "./Chat";
 
-// const socket = io.connect("http://192.168.0.104:1000");
-const socket = io.connect("http://52.66.111.244:5000");
+// const socket = io.connect("http://52.66.111.244:5000");
+const socket = io.connect("/");
 
 function App() {
   const [username, setUsername] = useState("");
